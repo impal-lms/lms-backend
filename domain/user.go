@@ -6,7 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type UserRole int64
+type UserRole int
 
 const (
 	Admin   UserRole = 0
@@ -32,7 +32,7 @@ func (u User) CheckPasswordHash(password string) bool {
 	return err == nil
 }
 
-func New(name, email, password string, role UserRole) (*User, error) {
+func NewUser(name, email, password string, role UserRole) (*User, error) {
 
 	pass, err := HashPassword(password)
 	if err != nil {
