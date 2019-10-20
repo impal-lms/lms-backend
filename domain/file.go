@@ -18,3 +18,22 @@ type Submission struct {
 	TaskID    int64
 	StudentID int64
 }
+
+var AllowedExtension = []string{
+	".pdf",
+	".doc",
+	".docx",
+	".xls",
+	".xlsx",
+	".ppt",
+	".pptx",
+}
+
+func IsValidExtension(ext string) bool {
+	for _, all := range AllowedExtension {
+		if ext == all {
+			return true
+		}
+	}
+	return false
+}

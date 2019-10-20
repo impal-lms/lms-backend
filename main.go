@@ -28,5 +28,9 @@ func main() {
 	user.POST("/create", h.CreateUser)
 	user.GET("/:id", h.GetUserById)
 
+	file := e.Group("/file")
+	file.POST("/upload", h.FileUpload)
+	file.Static("/", "static")
+
 	e.Logger.Fatal(e.Start(baseUrl))
 }

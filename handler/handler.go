@@ -2,9 +2,17 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
+	"os"
+	"path"
+	"path/filepath"
 	"strconv"
+	"strings"
+	"time"
 
+	"github.com/impal-lms/lms-backend/domain"
 	"github.com/impal-lms/lms-backend/repository/mock"
 	"github.com/impal-lms/lms-backend/services"
 	"github.com/labstack/echo"
@@ -97,5 +105,45 @@ func (h Handler) GetUserById(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, echo.Map{
 		"user": *user,
+	})
+}
+
+func (h Handler) FileUpload(ctx echo.Context) error {
+	file, err := ctx.FormFile("file")
+	if err != nil {
+		return err
+	}
+
+	name := strings.TrimSuffix(file.Filename, path.Ext(file.Filename))
+	ekstension := filepath.Ext(file.Filename)
+	if !domain.IsValidExtension(ekstension) {
+		return echo.ErrUnsupportedMediaType
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		return err
+	}
+
+	defer src.Close()
+
+	path := "static/"
+	mode := os.ModePerm
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		os.Mkdir(path, mode)
+	}
+
+	filename := fmt.Sprintf("%d_%s%s", time.Now().UnixNano(), name, ekstension)
+	dst, err := os.Create(path + filename)
+	if err != nil {
+		return err
+	}
+
+	if _, err = io.Copy(dst, src); err != nil {
+		return err
+	}
+
+	return ctx.JSON(http.StatusOK, map[string]string{
+		"path": "/file/" + filename,
 	})
 }
