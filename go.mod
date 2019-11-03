@@ -9,6 +9,7 @@ require (
 	github.com/kumparan/go-lib v1.3.0
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.3.0 // indirect
+	github.com/lib/pq v1.0.0
 	github.com/rubenv/sql-migrate v0.0.0-20191025130928-9355dd04f4b3
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.5

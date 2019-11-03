@@ -1,6 +1,10 @@
 TAG := $$( git rev-parse --short HEAD )
 IMAGE := lms-backend\:${TAG}
 
+migrate_up=go run main.go migrate --direction=up --step=0
+migrate_down=go run main.go migrate --direction=down --step=0
+
+
 .PHONY: proto run-dev build push-image build-image run-image
 
 migrate:

@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"strconv"
 
+	_ "github.com/lib/pq"
+
 	"github.com/impal-lms/lms-backend/helper"
 	migrate "github.com/rubenv/sql-migrate"
 	"github.com/sirupsen/logrus"
