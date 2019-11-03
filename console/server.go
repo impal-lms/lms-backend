@@ -19,7 +19,7 @@ func init() {
 }
 
 func run(_ *cobra.Command, _ []string) {
-	port := helper.GetEnv("PORT", "8000").(string)
+	port := helper.GetEnv("PORT", ":8000").(string)
 	h := handler.New()
 
 	e := echo.New()
