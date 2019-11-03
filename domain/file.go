@@ -1,22 +1,22 @@
 package domain
 
 type Material struct {
-	ID          int64
-	FileURL     string
-	ClassroomID int64
+	ID          int64  `json:"id" gorm:"primary_key"`
+	FileURL     string `json:"file_url"`
+	ClassroomID int64  `json:"classroom_id"`
 }
 
 type Task struct {
-	ID          int64
-	FileURL     string
-	ClassRoomID int64
+	ID          int64  `json:"id" gorm:"primary_key"`
+	FileURL     string `json:"file_url"`
+	ClassroomID int64  `json:"classroom_id"`
 }
 
 type Submission struct {
-	ID        int64
-	FileURL   string
-	TaskID    int64
-	StudentID int64
+	ID        int64  `json:"id" gorm:"primary_key"`
+	FileURL   string `json:"file_url"`
+	TaskID    int64  `json:"task_id"`
+	StudentID int64  `json:"student_id"`
 }
 
 var AllowedExtension = []string{

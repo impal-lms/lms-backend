@@ -1,28 +1,34 @@
 package handler
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
 	"net/http"
-	"os"
-	"path"
-	"path/filepath"
-	"strconv"
-	"strings"
-	"time"
 
-	"github.com/impal-lms/lms-backend/domain"
-	"github.com/impal-lms/lms-backend/repository/mock"
 	"github.com/impal-lms/lms-backend/services"
 	"github.com/labstack/echo"
-	"github.com/sirupsen/logrus"
 )
 
-type Handler struct {
-	userService services.UserService
+type Response struct {
+	Status int         `json:"status"`
+	Data   interface{} `json:"data"`
 }
 
+type Handler struct {
+	Services services.Services
+}
+
+func NewHandler(services services.Services) *Handler {
+	return &Handler{
+		Services: services,
+	}
+}
+
+func (h *Handler) HelloWorld(ctx echo.Context) error {
+	return ctx.JSON(http.StatusOK, echo.Map{
+		"hello": "world",
+	})
+}
+
+/*
 func New() *Handler {
 	userRepo := mock.NewUserMockRepository()
 
@@ -145,3 +151,5 @@ func (h Handler) FileUpload(ctx echo.Context) error {
 		"path": "/file/" + filename,
 	})
 }
+
+*/

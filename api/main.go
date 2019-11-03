@@ -1,4 +1,4 @@
-package console
+package main
 
 import (
 	"fmt"
@@ -9,23 +9,12 @@ import (
 	"github.com/impal-lms/lms-backend/repository"
 	"github.com/impal-lms/lms-backend/services"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
-	"github.com/spf13/cobra"
 )
 
-var runCmd = &cobra.Command{
-	Use:   "server",
-	Short: "run server",
-	Long:  `This subcommand start the server`,
-	Run:   run,
-}
-
-func init() {
-	RootCmd.AddCommand(runCmd)
-}
-
-func run(_ *cobra.Command, _ []string) {
+func main() {
 	godotenv.Load()
 	dbHost := os.Getenv("DB_URL")
 	dbPort := os.Getenv("DB_PORT")
@@ -33,7 +22,7 @@ func run(_ *cobra.Command, _ []string) {
 	dbName := os.Getenv("DB_NAME")
 	dbPass := os.Getenv("DB_PASSWORD")
 
-	db, err := gorm.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbPort, dbUser, dbName, dbPass))
+	db, err := gorm.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", dbHost, dbPort, dbUser, dbName, dbPass))
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect to database: %v", err))
 	}
