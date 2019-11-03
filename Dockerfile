@@ -7,5 +7,5 @@ RUN apk update \
         && update-ca-certificates 2>/dev/null || true
 COPY ./bin/app .
 EXPOSE 9000
-CMD ["/server/app"]
+CMD ["/server/app", "server"]
 
