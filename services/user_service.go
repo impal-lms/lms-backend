@@ -26,6 +26,7 @@ type LoginRequest struct {
 type UserResponse struct {
 	Name  string
 	Email string
+	Role  domain.UserRole
 }
 
 type UserService struct {
@@ -67,6 +68,7 @@ func (service UserService) GetUserByID(userId int64) (*UserResponse, error) {
 	return &UserResponse{
 		user.Name,
 		user.Email,
+		user.Role,
 	}, nil
 }
 
@@ -102,11 +104,13 @@ func (service UserService) ValidateToken(tokenString string) (userId int64, err 
 	return -1, errors.New("invalid token")
 }
 
-func (service UserService) Login(req LoginRequest) (token string, err error) {
+func (service UserService) Login(req LoginRequest) (token string, id int64, err error) {
 	user, err := service.Repository.Authenticate(req.Email, req.Password)
 	if err != nil {
-		return "", err
+		return "", -1, err
 	}
 
-	return service.GenerateToken(*user)
+	token, err = service.GenerateToken(*user)
+	id = user.Id
+	return
 }

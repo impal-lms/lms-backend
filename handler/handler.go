@@ -47,12 +47,13 @@ func (h Handler) Login(ctx echo.Context) error {
 		return err
 	}
 
-	token, err := h.userService.Login(req)
+	token, id, err := h.userService.Login(req)
 	if err != nil {
 		return err
 	}
 	return ctx.JSON(http.StatusOK, echo.Map{
 		"token": token,
+		"id":    id,
 	})
 }
 
