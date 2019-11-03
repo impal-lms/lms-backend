@@ -12,3 +12,9 @@ services used as a wrapper between domain and repository, containing logic that 
 
 ### Handler
 as the name suggest, the http handler, responsible processing the http  request and response
+
+## Migration  step
+1. Create a new migration file on `migration/`
+2. the migration need to be  following the example  on create_user
+3. copy `.env.example` as `.env`
+3. run `make migrate`
