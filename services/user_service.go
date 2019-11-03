@@ -9,6 +9,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/impal-lms/lms-backend/domain"
 	"github.com/impal-lms/lms-backend/repository"
+	"github.com/sirupsen/logrus"
 )
 
 type CreateUserRequest struct {
@@ -23,10 +24,15 @@ type LoginRequest struct {
 	Password string
 }
 
+type LoginResponse struct {
+	Token string `json:"token"`
+	ID    int64  `json:"id"`
+	Role  int    `json:"role"`
+}
+
 type UserResponse struct {
 	Name  string
 	Email string
-	Role  domain.UserRole
 }
 
 type UserService struct {
@@ -68,7 +74,6 @@ func (service UserService) GetUserByID(userId int64) (*UserResponse, error) {
 	return &UserResponse{
 		user.Name,
 		user.Email,
-		user.Role,
 	}, nil
 }
 
@@ -104,13 +109,22 @@ func (service UserService) ValidateToken(tokenString string) (userId int64, err 
 	return -1, errors.New("invalid token")
 }
 
-func (service UserService) Login(req LoginRequest) (token string, id int64, err error) {
+func (service UserService) Login(req LoginRequest) (LoginResponse, error) {
 	user, err := service.Repository.Authenticate(req.Email, req.Password)
 	if err != nil {
-		return "", -1, err
+		return LoginResponse{}, err
 	}
 
-	token, err = service.GenerateToken(*user)
-	id = user.Id
-	return
+	token, err := service.GenerateToken(*user)
+	if err != nil {
+		return LoginResponse{}, err
+	}
+
+	logrus.Println(user)
+
+	return LoginResponse{
+		token,
+		user.Id,
+		int(user.Role),
+	}, nil
 }
