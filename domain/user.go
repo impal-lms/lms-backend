@@ -44,5 +44,6 @@ func NewUser(name, email, password string, role UserRole) (*User, error) {
 		Name:     name,
 		Email:    email,
 		Password: pass,
+		Role:     role,
 	}, nil
 }

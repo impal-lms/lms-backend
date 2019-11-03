@@ -16,7 +16,7 @@ type CreateUserRequest struct {
 	Name     string
 	Email    string
 	Password string
-	Role     domain.UserRole
+	Role     int
 }
 
 type LoginRequest struct {
@@ -25,9 +25,9 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token string `json:"token"`
-	ID    int64  `json:"id"`
-	Role  int    `json:"role"`
+	Token string          `json:"token"`
+	ID    int64           `json:"id"`
+	Role  domain.UserRole `json:"role"`
 }
 
 type UserResponse struct {
@@ -57,7 +57,7 @@ func (service *UserService) CreateUser(requesterId int64, req CreateUserRequest)
 		return 401, err
 	}
 
-	user, err := domain.NewUser(req.Name, req.Email, req.Password, req.Role)
+	user, err := domain.NewUser(req.Name, req.Email, req.Password, domain.UserRole(req.Role))
 	if err != nil {
 		return 500, err
 	}
@@ -125,6 +125,6 @@ func (service UserService) Login(req LoginRequest) (LoginResponse, error) {
 	return LoginResponse{
 		token,
 		user.Id,
-		int(user.Role),
+		user.Role,
 	}, nil
 }
