@@ -1,12 +1,9 @@
 package console
 
 import (
-	"os"
-
 	"github.com/impal-lms/lms-backend/handler"
-	"github.com/joho/godotenv"
+	"github.com/impal-lms/lms-backend/helper"
 	"github.com/labstack/echo"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -22,14 +19,7 @@ func init() {
 }
 
 func run(_ *cobra.Command, _ []string) {
-	err := godotenv.Load()
-	baseUrl := ":8000"
-	if err != nil {
-		logrus.Warn("Error loading .env file")
-	}
-
-	baseUrl = os.Getenv("BASE_URL")
-
+	port := helper.GetEnv("PORT", "8000").(string)
 	h := handler.New()
 
 	e := echo.New()
@@ -40,5 +30,5 @@ func run(_ *cobra.Command, _ []string) {
 	user.POST("/create", h.CreateUser)
 	user.GET("/:id", h.GetUserById)
 
-	e.Logger.Fatal(e.Start(baseUrl))
+	e.Logger.Fatal(e.Start(port))
 }
