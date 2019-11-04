@@ -15,7 +15,7 @@ migrate:
 	fi
 
 serve:
-	go run .
+	go run . server
 
 build:
 	@GOOS=linux GOARCH=amd64 go build -o bin/app .
