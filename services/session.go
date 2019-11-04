@@ -7,7 +7,7 @@ import (
 )
 
 func (lms *LMS) Authenticate(email, password string) (*domain.User, error) {
-	user, err := lms.Repository.GetUserByID(1)
+	user, err := lms.Repository.GetUserByEmail(email)
 	if err != nil {
 		return nil, errors.New("authentication failed")
 	}
