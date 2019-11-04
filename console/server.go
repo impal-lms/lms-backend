@@ -27,7 +27,7 @@ func init() {
 
 func run(_ *cobra.Command, _ []string) {
 	godotenv.Load()
-	dbHost := os.Getenv("DB_URL")
+	dbHost := os.Getenv("DBH_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbUser := os.Getenv("DB_USER")
 	dbName := os.Getenv("DB_NAME")

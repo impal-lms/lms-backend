@@ -16,7 +16,7 @@ import (
 
 func main() {
 	godotenv.Load()
-	dbHost := os.Getenv("DB_URL")
+	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbUser := os.Getenv("DB_USER")
 	dbName := os.Getenv("DB_NAME")
