@@ -12,6 +12,7 @@ type GORM struct {
 func NewRepository(DB *gorm.DB) *GORM {
 	DB.AutoMigrate(
 		&domain.User{},
+		&domain.Classroom{},
 		&domain.Material{},
 		&domain.Task{},
 		&domain.Submission{},

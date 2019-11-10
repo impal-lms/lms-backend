@@ -18,7 +18,6 @@ func (lms *LMS) CreateUser(user domain.User) (domain.User, int, error) {
 	}
 
 	user.ID = time.Now().UnixNano()
-	user.Role = -1
 	user.Password = hash
 
 	user, err = lms.Repository.CreateUser(user)
@@ -38,7 +37,7 @@ func (lms *LMS) GetUserByEmail(email string) (domain.User, error) {
 }
 
 func (lms *LMS) UpdateUser(user domain.User) (domain.User, error) {
-	user, err := lms.Repository.GetUserByID(user.ID)
+	_, err := lms.Repository.GetUserByID(user.ID)
 	if err != nil {
 		return domain.User{}, errors.Wrap(err, "user does not exist")
 	}
@@ -53,4 +52,39 @@ func (lms *LMS) DeleteUserById(id int64) (domain.User, error) {
 	}
 
 	return domain.User{}, lms.Repository.DeleteUserById(user.ID)
+}
+
+func (lms *LMS) ChangePassword(user domain.User, req domain.ChangePasswordRequest) (domain.User, error) {
+	userVerify, err := lms.Repository.GetUserByID(user.ID)
+	if err != nil {
+		return domain.User{}, errors.Wrap(err, "user does not exist")
+	}
+
+	if ok := lms.Authentication.CheckPasswordHash(userVerify.Password, req.OldPassword); !ok {
+		return domain.User{}, errors.New("old password does not match")
+	}
+
+	if req.OldPassword == req.NewPassword {
+		return domain.User{}, errors.New("new password can not be same as old password")
+	}
+
+	hash, err := lms.Authentication.HashPassword(req.NewPassword)
+	if err != nil {
+		return domain.User{}, errors.New("change password error")
+	}
+
+	user.Password = hash
+
+	return user, lms.Repository.UpdateUser(user)
+}
+
+func (lms *LMS) ChangeRole(user domain.User, req domain.ChangeRoleRequest) (domain.User, error) {
+	_, err := lms.Repository.GetUserByID(user.ID)
+	if err != nil {
+		return domain.User{}, errors.Wrap(err, "user does not exist")
+	}
+
+	user.Role = req.Role
+
+	return user, lms.Repository.UpdateUser(user)
 }

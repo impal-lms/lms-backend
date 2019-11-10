@@ -12,7 +12,14 @@ import (
 func (h *Handler) GetAllMaterial(ctx echo.Context) error {
 	var response Response
 
-	materials, err := h.Services.GetAllMaterial()
+	classroomID, err := strconv.ParseInt(ctx.Param("classroom_id"), 10, 64)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	materials, err := h.Services.GetAllMaterial(classroomID)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
@@ -131,7 +138,14 @@ func (h *Handler) DeleteMaterialById(ctx echo.Context) error {
 func (h *Handler) GetAllTask(ctx echo.Context) error {
 	var response Response
 
-	Tasks, err := h.Services.GetAllTask()
+	classroomID, err := strconv.ParseInt(ctx.Param("classroom_id"), 10, 64)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	Tasks, err := h.Services.GetAllTask(classroomID)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
@@ -249,7 +263,14 @@ func (h *Handler) DeleteTaskById(ctx echo.Context) error {
 func (h *Handler) GetAllSubmission(ctx echo.Context) error {
 	var response Response
 
-	Submissions, err := h.Services.GetAllSubmission()
+	classroomID, err := strconv.ParseInt(ctx.Param("classroom_id"), 10, 64)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	Submissions, err := h.Services.GetAllSubmission(classroomID)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError

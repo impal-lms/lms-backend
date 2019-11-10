@@ -1,18 +1,22 @@
 package services
 
 import (
+	"strings"
 	"time"
 
 	"github.com/impal-lms/lms-backend/domain"
 	"github.com/pkg/errors"
 )
 
-func (lms *LMS) GetAllMaterial() ([]domain.Material, error) {
-	return lms.Repository.GetAllMaterial()
+func (lms *LMS) GetAllMaterial(classroomID int64) ([]domain.Material, error) {
+	return lms.Repository.GetAllMaterial(classroomID)
 }
 
 func (lms *LMS) CreateMaterial(Material domain.Material) (domain.Material, int, error) {
 	Material.ID = time.Now().UnixNano()
+	if Material.Title != "" {
+		Material.Title = strings.ToUpper(Material.Title)
+	}
 
 	Material, err := lms.Repository.CreateMaterial(Material)
 	if err != nil {
@@ -27,9 +31,13 @@ func (lms *LMS) GetMaterialByID(id int64) (domain.Material, error) {
 }
 
 func (lms *LMS) UpdateMaterial(Material domain.Material) (domain.Material, error) {
-	Material, err := lms.Repository.GetMaterialByID(Material.ID)
+	_, err := lms.Repository.GetMaterialByID(Material.ID)
 	if err != nil {
 		return domain.Material{}, errors.Wrap(err, "material does not exist")
+	}
+
+	if Material.Title != "" {
+		Material.Title = strings.ToUpper(Material.Title)
 	}
 
 	return Material, lms.Repository.UpdateMaterial(Material)
@@ -44,12 +52,15 @@ func (lms *LMS) DeleteMaterialById(id int64) (domain.Material, error) {
 	return domain.Material{}, lms.Repository.DeleteMaterialById(Material.ID)
 }
 
-func (lms *LMS) GetAllTask() ([]domain.Task, error) {
-	return lms.Repository.GetAllTask()
+func (lms *LMS) GetAllTask(classroomID int64) ([]domain.Task, error) {
+	return lms.Repository.GetAllTask(classroomID)
 }
 
 func (lms *LMS) CreateTask(Task domain.Task) (domain.Task, int, error) {
 	Task.ID = time.Now().UnixNano()
+	if Task.Title != "" {
+		Task.Title = strings.ToUpper(Task.Title)
+	}
 
 	Task, err := lms.Repository.CreateTask(Task)
 	if err != nil {
@@ -64,9 +75,13 @@ func (lms *LMS) GetTaskByID(id int64) (domain.Task, error) {
 }
 
 func (lms *LMS) UpdateTask(Task domain.Task) (domain.Task, error) {
-	Task, err := lms.Repository.GetTaskByID(Task.ID)
+	_, err := lms.Repository.GetTaskByID(Task.ID)
 	if err != nil {
 		return domain.Task{}, errors.Wrap(err, "task does not exist")
+	}
+
+	if Task.Title != "" {
+		Task.Title = strings.ToUpper(Task.Title)
 	}
 
 	return Task, lms.Repository.UpdateTask(Task)
@@ -81,12 +96,15 @@ func (lms *LMS) DeleteTaskById(id int64) (domain.Task, error) {
 	return domain.Task{}, lms.Repository.DeleteTaskById(Task.ID)
 }
 
-func (lms *LMS) GetAllSubmission() ([]domain.Submission, error) {
-	return lms.Repository.GetAllSubmission()
+func (lms *LMS) GetAllSubmission(classroomID int64) ([]domain.Submission, error) {
+	return lms.Repository.GetAllSubmission(classroomID)
 }
 
 func (lms *LMS) CreateSubmission(Submission domain.Submission) (domain.Submission, int, error) {
 	Submission.ID = time.Now().UnixNano()
+	if Submission.Title != "" {
+		Submission.Title = strings.ToUpper(Submission.Title)
+	}
 
 	Submission, err := lms.Repository.CreateSubmission(Submission)
 	if err != nil {
@@ -101,9 +119,13 @@ func (lms *LMS) GetSubmissionByID(id int64) (domain.Submission, error) {
 }
 
 func (lms *LMS) UpdateSubmission(Submission domain.Submission) (domain.Submission, error) {
-	Submission, err := lms.Repository.GetSubmissionByID(Submission.ID)
+	_, err := lms.Repository.GetSubmissionByID(Submission.ID)
 	if err != nil {
 		return domain.Submission{}, errors.Wrap(err, "submission does not exist")
+	}
+
+	if Submission.Title != "" {
+		Submission.Title = strings.ToUpper(Submission.Title)
 	}
 
 	return Submission, lms.Repository.UpdateSubmission(Submission)

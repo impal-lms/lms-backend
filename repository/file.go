@@ -4,8 +4,14 @@ import (
 	"github.com/impal-lms/lms-backend/domain"
 )
 
-func (g *GORM) GetAllMaterial() ([]domain.Material, error) {
+func (g *GORM) GetAllMaterial(classroomID int64) ([]domain.Material, error) {
 	var Material []domain.Material
+
+	if classroomID != 0 {
+		if err := g.DB.Model(&Material).Where("clasroom_id = ?", classroomID).Find(&Material).Error; err != nil {
+			return Material, err
+		}
+	}
 
 	if err := g.DB.Model(&Material).Find(&Material).Error; err != nil {
 		return Material, err
@@ -49,8 +55,13 @@ func (g *GORM) DeleteMaterialById(id int64) error {
 	return nil
 }
 
-func (g *GORM) GetAllTask() ([]domain.Task, error) {
+func (g *GORM) GetAllTask(classroomID int64) ([]domain.Task, error) {
 	var Task []domain.Task
+	if classroomID != 0 {
+		if err := g.DB.Model(&Task).Where("clasroom_id = ?", classroomID).Find(&Task).Error; err != nil {
+			return Task, err
+		}
+	}
 
 	if err := g.DB.Model(&Task).Find(&Task).Error; err != nil {
 		return Task, err
@@ -94,8 +105,14 @@ func (g *GORM) DeleteTaskById(id int64) error {
 	return nil
 }
 
-func (g *GORM) GetAllSubmission() ([]domain.Submission, error) {
+func (g *GORM) GetAllSubmission(classroomID int64) ([]domain.Submission, error) {
 	var Submission []domain.Submission
+
+	if classroomID != 0 {
+		if err := g.DB.Model(&Submission).Where("clasroom_id = ?", classroomID).Find(&Submission).Error; err != nil {
+			return Submission, err
+		}
+	}
 
 	if err := g.DB.Model(&Submission).Find(&Submission).Error; err != nil {
 		return Submission, err

@@ -52,6 +52,7 @@ func main() {
 
 	e.GET("/", h.HelloWorld)
 	e.POST("/login", h.Login)
+	e.POST("/register", h.Register)
 
 	user := e.Group("/user")
 	user.GET("", h.GetAllUser)
@@ -59,6 +60,20 @@ func main() {
 	user.GET("/:id", h.GetUserByID)
 	user.PUT("/:id", h.UpdateUser)
 	user.DELETE("/:id", h.DeleteUserById)
+	user.PUT("/:id/password", h.ChangePassword)
+	user.PUT("/:id/role", h.ChangeRole)
+
+	classroom := e.Group("/classroom")
+	classroom.GET("", h.GetAllClassroom)
+	classroom.POST("", h.CreateClassroom)
+	classroom.GET("/:id", h.GetClassroomByID)
+	classroom.PUT("/:id", h.UpdateClassroom)
+	classroom.DELETE("/:id", h.DeleteClassroomById)
+	classroom.PUT("/:id/add-student", h.AddStudentToClassroom)
+	classroom.PUT("/:id/delete-student", h.DeleteStudentFromClassroom)
+	classroom.PUT("/:id/add-room", h.AddRoomToClassroom)
+	classroom.PUT("/:id/delete-room", h.DeleteRoomFromClassroom)
+	classroom.GET("/user/:user_id", h.GetAllClassroomOfUser)
 
 	material := e.Group("/material")
 	material.GET("", h.GetAllMaterial)

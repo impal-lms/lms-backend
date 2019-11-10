@@ -28,7 +28,7 @@ func (g *GORM) GetClassroomByID(id int64) (domain.Classroom, error) {
 	return classroom, nil
 }
 
-func (g *GORM) UpdateClasroom(classroom domain.Classroom) error {
+func (g *GORM) UpdateClassroom(classroom domain.Classroom) error {
 	if err := g.DB.Model(&classroom).Where("id = ?", classroom.ID).Update(&classroom).Error; err != nil {
 		return err
 	}
