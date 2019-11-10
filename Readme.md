@@ -1,5 +1,9 @@
 # Backend LMS
 
+[![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/impal-lms/lms-backend)
+[![Go Report Card](https://goreportcard.com/badge/github.com/labstack/echo?style=flat-square)](https://goreportcard.com/report/github.com/impal-lms/lms-backend)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/impal-lms/lms-backend/master/LICENSE)
+
 ## Packages Docs
 ### Domain
 should contains all the data models and it's business logic and validation
