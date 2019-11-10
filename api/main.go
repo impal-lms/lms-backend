@@ -1,4 +1,4 @@
-package console
+package main
 
 import (
 	"fmt"
@@ -17,21 +17,9 @@ import (
 	middleware "github.com/neko-neko/echo-logrus/v2"
 	"github.com/neko-neko/echo-logrus/v2/log"
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
 )
 
-var runCmd = &cobra.Command{
-	Use:   "server",
-	Short: "run server",
-	Long:  `This subcommand start the server`,
-	Run:   run,
-}
-
-func init() {
-	RootCmd.AddCommand(runCmd)
-}
-
-func run(_ *cobra.Command, _ []string) {
+func main() {
 	godotenv.Load()
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")

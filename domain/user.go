@@ -1,49 +1,45 @@
 package domain
 
-import (
-	"time"
-
-	"golang.org/x/crypto/bcrypt"
-)
-
 type UserRole int
 
 const (
-	Admin   UserRole = 0
+	Admin   UserRole = -1
 	Teacher UserRole = 1
 	Student UserRole = 2
 )
 
 type User struct {
-	Id       int64
-	Name     string
-	Email    string
-	Password string
-	Role     UserRole
+	ID       int64    `json:"id" gorm:"primary_key"`
+	Name     string   `json:"name"`
+	Email    string   `json:"email" gorm:"unique_index"`
+	Password string   `json:"password"`
+	Role     UserRole `json:"role"`
 }
 
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
+type CreateUserRequest struct {
+	Name     string   `json:"name" binding:"required"`
+	Email    string   `json:"email" binding:"required"`
+	Password string   `json:"password" binding:"required"`
+	Role     UserRole `json:"role"`
 }
 
-func (u User) CheckPasswordHash(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
-	return err == nil
+type UpdateUserRequest struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }
 
-func NewUser(name, email, password string, role UserRole) (*User, error) {
+type ChangePasswordRequest struct {
+	OldPassword string `json:"old_password" binding:"required"`
+	NewPassword string `json:"new_password" binding:"required"`
+}
 
-	pass, err := HashPassword(password)
-	if err != nil {
-		return nil, err
-	}
+type ChangeRoleRequest struct {
+	Role UserRole `json:"role" binding:"required"`
+}
 
-	return &User{
-		Id:       time.Now().UnixNano(),
-		Name:     name,
-		Email:    email,
-		Password: pass,
-		Role:     role,
-	}, nil
+type UserResponse struct {
+	ID    int64    `json:"id"`
+	Name  string   `json:"name"`
+	Email string   `json:"email"`
+	Role  UserRole `json:"role"`
 }
