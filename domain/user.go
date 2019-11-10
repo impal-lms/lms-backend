@@ -11,7 +11,7 @@ const (
 type User struct {
 	ID       int64    `json:"id" gorm:"primary_key"`
 	Name     string   `json:"name"`
-	Email    string   `json:"email"`
+	Email    string   `json:"email" gorm:"unique_index"`
 	Password string   `json:"password"`
 	Role     UserRole `json:"role"`
 }
