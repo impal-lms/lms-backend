@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/impal-lms/lms-backend/domain"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func (h *Handler) GetAllMaterial(ctx echo.Context) error {

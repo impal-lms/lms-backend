@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/impal-lms/lms-backend/domain"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func (h *Handler) Login(ctx echo.Context) error {

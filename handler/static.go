@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/impal-lms/lms-backend/domain"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func (h *Handler) FileUpload(ctx echo.Context) error {

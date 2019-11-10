@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/impal-lms/lms-backend/authentication"
 	"github.com/impal-lms/lms-backend/handler"
@@ -11,7 +12,11 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
+	echoLog "github.com/labstack/gommon/log"
+	middleware "github.com/neko-neko/echo-logrus/v2"
+	"github.com/neko-neko/echo-logrus/v2/log"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -34,6 +39,17 @@ func main() {
 	h := handler.NewHandler(lms)
 
 	e := echo.New()
+
+	// Logger
+	log.Logger().SetOutput(os.Stdout)
+	log.Logger().SetLevel(echoLog.INFO)
+	log.Logger().SetFormatter(&logrus.JSONFormatter{
+		TimestampFormat: time.RFC3339,
+	})
+	e.Logger = log.Logger()
+	e.Use(middleware.Logger())
+	log.Info("Logger enabled!!")
+
 	e.GET("/", h.HelloWorld)
 	e.POST("/login", h.Login)
 
