@@ -18,6 +18,7 @@ func (lms *LMS) CreateUser(user domain.User) (domain.User, int, error) {
 	}
 
 	user.ID = time.Now().UnixNano()
+	user.Role = -1
 	user.Password = hash
 
 	user, err = lms.Repository.CreateUser(user)
