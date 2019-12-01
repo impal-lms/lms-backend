@@ -149,7 +149,7 @@ func TestLMS_UpdateClassroom(t *testing.T) {
 	}
 }
 
-func TestLMS_DeleteClassroomById(t *testing.T) {
+func TestLMS_DeleteClassroomByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
@@ -172,32 +172,32 @@ func TestLMS_DeleteClassroomById(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.DeleteClassroomById(tt.args.id)
+			got, err := lms.DeleteClassroomByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.DeleteClassroomById() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.DeleteClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.DeleteClassroomById() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.DeleteClassroomByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_AddStudentToClassroom(t *testing.T) {
+func TestLMS_GetAllStudentClassroom(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		id        int64
-		studentID int64
+		studentID   int64
+		classroomID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.Classroom
+		want    []domain.StudentClassroom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -208,32 +208,32 @@ func TestLMS_AddStudentToClassroom(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.AddStudentToClassroom(tt.args.id, tt.args.studentID)
+			got, err := lms.GetAllStudentClassroom(tt.args.studentID, tt.args.classroomID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.AddStudentToClassroom() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.GetAllStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.AddStudentToClassroom() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.GetAllStudentClassroom() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_DeleteStudentFromClassroom(t *testing.T) {
+func TestLMS_CreateStudentClassroom(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		id        int64
-		studentID int64
+		StudentClassroom domain.StudentClassroom
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.Classroom
+		want    domain.StudentClassroom
+		want1   int
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -244,32 +244,34 @@ func TestLMS_DeleteStudentFromClassroom(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.DeleteStudentFromClassroom(tt.args.id, tt.args.studentID)
+			got, got1, err := lms.CreateStudentClassroom(tt.args.StudentClassroom)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.DeleteStudentFromClassroom() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.CreateStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.DeleteStudentFromClassroom() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.CreateStudentClassroom() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("LMS.CreateStudentClassroom() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
 }
 
-func TestLMS_AddRoomToClassroom(t *testing.T) {
+func TestLMS_GetStudentClassroomByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		id     int64
-		roomID int64
+		id int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.Classroom
+		want    domain.StudentClassroom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -280,32 +282,31 @@ func TestLMS_AddRoomToClassroom(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.AddRoomToClassroom(tt.args.id, tt.args.roomID)
+			got, err := lms.GetStudentClassroomByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.AddRoomToClassroom() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.GetStudentClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.AddRoomToClassroom() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.GetStudentClassroomByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_DeleteRoomFromClassroom(t *testing.T) {
+func TestLMS_UpdateStudentClassroom(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		id     int64
-		roomID int64
+		StudentClassroom domain.StudentClassroom
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.Classroom
+		want    domain.StudentClassroom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -316,31 +317,31 @@ func TestLMS_DeleteRoomFromClassroom(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.DeleteRoomFromClassroom(tt.args.id, tt.args.roomID)
+			got, err := lms.UpdateStudentClassroom(tt.args.StudentClassroom)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.DeleteRoomFromClassroom() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.UpdateStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.DeleteRoomFromClassroom() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.UpdateStudentClassroom() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_GetAllClassroomOfUser(t *testing.T) {
+func TestLMS_DeleteStudentClassroomByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		userID int64
+		id int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    []domain.ClassroomOfUser
+		want    domain.StudentClassroom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -351,13 +352,13 @@ func TestLMS_GetAllClassroomOfUser(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.GetAllClassroomOfUser(tt.args.userID)
+			got, err := lms.DeleteStudentClassroomByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.GetAllClassroomOfUser() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.DeleteStudentClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.GetAllClassroomOfUser() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.DeleteStudentClassroomByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -45,13 +45,13 @@ func (lms *LMS) UpdateUser(user domain.User) (domain.User, error) {
 	return user, lms.Repository.UpdateUser(user)
 }
 
-func (lms *LMS) DeleteUserById(id int64) (domain.User, error) {
+func (lms *LMS) DeleteUserByID(id int64) (domain.User, error) {
 	user, err := lms.Repository.GetUserByID(id)
 	if err != nil {
 		return domain.User{}, errors.Wrap(err, "user does not exist")
 	}
 
-	return domain.User{}, lms.Repository.DeleteUserById(user.ID)
+	return domain.User{}, lms.Repository.DeleteUserByID(user.ID)
 }
 
 func (lms *LMS) ChangePassword(user domain.User, req domain.ChangePasswordRequest) (domain.User, error) {

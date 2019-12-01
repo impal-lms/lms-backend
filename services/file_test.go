@@ -9,6 +9,26 @@ import (
 	"github.com/impal-lms/lms-backend/repository"
 )
 
+func TestIsValidExtension(t *testing.T) {
+	type args struct {
+		ext string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsValidExtension(tt.args.ext); got != tt.want {
+				t.Errorf("IsValidExtension() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestLMS_GetAllMaterial(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
@@ -153,7 +173,7 @@ func TestLMS_UpdateMaterial(t *testing.T) {
 	}
 }
 
-func TestLMS_DeleteMaterialById(t *testing.T) {
+func TestLMS_DeleteMaterialByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
@@ -176,13 +196,13 @@ func TestLMS_DeleteMaterialById(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.DeleteMaterialById(tt.args.id)
+			got, err := lms.DeleteMaterialByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.DeleteMaterialById() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.DeleteMaterialByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.DeleteMaterialById() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.DeleteMaterialByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -332,7 +352,7 @@ func TestLMS_UpdateTask(t *testing.T) {
 	}
 }
 
-func TestLMS_DeleteTaskById(t *testing.T) {
+func TestLMS_DeleteTaskByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
@@ -355,13 +375,13 @@ func TestLMS_DeleteTaskById(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.DeleteTaskById(tt.args.id)
+			got, err := lms.DeleteTaskByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.DeleteTaskById() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.DeleteTaskByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.DeleteTaskById() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.DeleteTaskByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -373,6 +393,7 @@ func TestLMS_GetAllSubmission(t *testing.T) {
 		Authentication authentication.Authentication
 	}
 	type args struct {
+		studentID   int64
 		classroomID int64
 	}
 	tests := []struct {
@@ -390,7 +411,7 @@ func TestLMS_GetAllSubmission(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.GetAllSubmission(tt.args.classroomID)
+			got, err := lms.GetAllSubmission(tt.args.studentID, tt.args.classroomID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("LMS.GetAllSubmission() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -511,7 +532,7 @@ func TestLMS_UpdateSubmission(t *testing.T) {
 	}
 }
 
-func TestLMS_DeleteSubmissionById(t *testing.T) {
+func TestLMS_DeleteSubmissionByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
@@ -534,13 +555,13 @@ func TestLMS_DeleteSubmissionById(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.DeleteSubmissionById(tt.args.id)
+			got, err := lms.DeleteSubmissionByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.DeleteSubmissionById() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.DeleteSubmissionByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.DeleteSubmissionById() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.DeleteSubmissionByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}

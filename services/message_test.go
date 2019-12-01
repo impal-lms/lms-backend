@@ -9,15 +9,19 @@ import (
 	"github.com/impal-lms/lms-backend/repository"
 )
 
-func TestLMS_GetAllUser(t *testing.T) {
+func TestLMS_GetAllChatRoom(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
+	type args struct {
+		userID int64
+	}
 	tests := []struct {
 		name    string
 		fields  fields
-		want    []domain.User
+		args    args
+		want    []domain.ChatRoom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -28,31 +32,66 @@ func TestLMS_GetAllUser(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.GetAllUser()
+			got, err := lms.GetAllChatRoom(tt.args.userID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.GetAllUser() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.GetAllChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.GetAllUser() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.GetAllChatRoom() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_CreateUser(t *testing.T) {
+func TestLMS_GetChatRoomByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		user domain.User
+		ChatRoomID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.ChatRoom
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			lms := &LMS{
+				Repository:     tt.fields.Repository,
+				Authentication: tt.fields.Authentication,
+			}
+			got, err := lms.GetChatRoomByID(tt.args.ChatRoomID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("LMS.GetChatRoomByID() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("LMS.GetChatRoomByID() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestLMS_CreateChatRoom(t *testing.T) {
+	type fields struct {
+		Repository     repository.Repository
+		Authentication authentication.Authentication
+	}
+	type args struct {
+		ChatRoom domain.ChatRoom
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.ChatRoom
 		want1   int
 		wantErr bool
 	}{
@@ -64,34 +103,34 @@ func TestLMS_CreateUser(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, got1, err := lms.CreateUser(tt.args.user)
+			got, got1, err := lms.CreateChatRoom(tt.args.ChatRoom)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.CreateUser() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.CreateChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.CreateUser() got = %v, want %v", got, tt.want)
+				t.Errorf("LMS.CreateChatRoom() got = %v, want %v", got, tt.want)
 			}
 			if got1 != tt.want1 {
-				t.Errorf("LMS.CreateUser() got1 = %v, want %v", got1, tt.want1)
+				t.Errorf("LMS.CreateChatRoom() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
 }
 
-func TestLMS_GetUserByID(t *testing.T) {
+func TestLMS_UpdateChatRoom(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		id int64
+		ChatRoom domain.ChatRoom
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.ChatRoom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -102,31 +141,31 @@ func TestLMS_GetUserByID(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.GetUserByID(tt.args.id)
+			got, err := lms.UpdateChatRoom(tt.args.ChatRoom)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.GetUserByID() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.UpdateChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.GetUserByID() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.UpdateChatRoom() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_GetUserByEmail(t *testing.T) {
+func TestLMS_DeleteChatRoomByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		email string
+		ChatRoomID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.ChatRoom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -137,31 +176,31 @@ func TestLMS_GetUserByEmail(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.GetUserByEmail(tt.args.email)
+			got, err := lms.DeleteChatRoomByID(tt.args.ChatRoomID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.GetUserByEmail() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.DeleteChatRoomByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.GetUserByEmail() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.DeleteChatRoomByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_UpdateUser(t *testing.T) {
+func TestLMS_GetAllMessage(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		user domain.User
+		ChatRoomID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    []domain.Message
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -172,31 +211,31 @@ func TestLMS_UpdateUser(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.UpdateUser(tt.args.user)
+			got, err := lms.GetAllMessage(tt.args.ChatRoomID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.UpdateUser() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.GetAllMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.UpdateUser() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.GetAllMessage() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_DeleteUserByID(t *testing.T) {
+func TestLMS_GetMessageByID(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		id int64
+		messageID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.Message
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -207,32 +246,32 @@ func TestLMS_DeleteUserByID(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.DeleteUserByID(tt.args.id)
+			got, err := lms.GetMessageByID(tt.args.messageID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.DeleteUserByID() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.GetMessageByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.DeleteUserByID() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.GetMessageByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLMS_ChangePassword(t *testing.T) {
+func TestLMS_CreateMessage(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		user domain.User
-		req  domain.ChangePasswordRequest
+		message domain.Message
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.Message
+		want1   int
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -243,32 +282,34 @@ func TestLMS_ChangePassword(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.ChangePassword(tt.args.user, tt.args.req)
+			got, got1, err := lms.CreateMessage(tt.args.message)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.ChangePassword() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.CreateMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.ChangePassword() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.CreateMessage() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("LMS.CreateMessage() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
 }
 
-func TestLMS_ChangeRole(t *testing.T) {
+func TestLMS_UpdateMessage(t *testing.T) {
 	type fields struct {
 		Repository     repository.Repository
 		Authentication authentication.Authentication
 	}
 	type args struct {
-		user domain.User
-		req  domain.ChangeRoleRequest
+		message domain.Message
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.Message
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -279,13 +320,48 @@ func TestLMS_ChangeRole(t *testing.T) {
 				Repository:     tt.fields.Repository,
 				Authentication: tt.fields.Authentication,
 			}
-			got, err := lms.ChangeRole(tt.args.user, tt.args.req)
+			got, err := lms.UpdateMessage(tt.args.message)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("LMS.ChangeRole() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("LMS.UpdateMessage() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LMS.ChangeRole() = %v, want %v", got, tt.want)
+				t.Errorf("LMS.UpdateMessage() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestLMS_DeleteMessageByID(t *testing.T) {
+	type fields struct {
+		Repository     repository.Repository
+		Authentication authentication.Authentication
+	}
+	type args struct {
+		messageID int64
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.Message
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			lms := &LMS{
+				Repository:     tt.fields.Repository,
+				Authentication: tt.fields.Authentication,
+			}
+			got, err := lms.DeleteMessageByID(tt.args.messageID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("LMS.DeleteMessageByID() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("LMS.DeleteMessageByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
