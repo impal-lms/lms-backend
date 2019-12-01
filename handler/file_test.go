@@ -115,7 +115,7 @@ func TestHandler_UpdateMaterial(t *testing.T) {
 	}
 }
 
-func TestHandler_DeleteMaterialById(t *testing.T) {
+func TestHandler_DeleteMaterialByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -135,8 +135,8 @@ func TestHandler_DeleteMaterialById(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.DeleteMaterialById(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.DeleteMaterialById() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.DeleteMaterialByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.DeleteMaterialByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -250,7 +250,7 @@ func TestHandler_UpdateTask(t *testing.T) {
 	}
 }
 
-func TestHandler_DeleteTaskById(t *testing.T) {
+func TestHandler_DeleteTaskByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -270,8 +270,8 @@ func TestHandler_DeleteTaskById(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.DeleteTaskById(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.DeleteTaskById() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.DeleteTaskByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.DeleteTaskByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -385,7 +385,7 @@ func TestHandler_UpdateSubmission(t *testing.T) {
 	}
 }
 
-func TestHandler_DeleteSubmissionById(t *testing.T) {
+func TestHandler_DeleteSubmissionByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -405,8 +405,8 @@ func TestHandler_DeleteSubmissionById(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.DeleteSubmissionById(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.DeleteSubmissionById() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.DeleteSubmissionByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.DeleteSubmissionByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

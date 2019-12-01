@@ -8,47 +8,18 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func TestGORM_GetAllClassroom(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		want    []domain.Classroom
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.GetAllClassroom()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetAllClassroom() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetAllClassroom() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_CreateClassroom(t *testing.T) {
+func TestGORM_GetAllChatRoom(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
 	type args struct {
-		classroom domain.Classroom
+		userID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.Classroom
+		want    []domain.ChatRoom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -58,19 +29,52 @@ func TestGORM_CreateClassroom(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			got, err := g.CreateClassroom(tt.args.classroom)
+			got, err := g.GetAllChatRoom(tt.args.userID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.CreateClassroom() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GORM.GetAllChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.CreateClassroom() = %v, want %v", got, tt.want)
+				t.Errorf("GORM.GetAllChatRoom() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestGORM_GetClassroomByID(t *testing.T) {
+func TestGORM_CreateChatRoom(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		ChatRoom domain.ChatRoom
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.ChatRoom
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			got, err := g.CreateChatRoom(tt.args.ChatRoom)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GORM.CreateChatRoom() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GORM.CreateChatRoom() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGORM_GetChatRoomByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -81,7 +85,7 @@ func TestGORM_GetClassroomByID(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    domain.Classroom
+		want    domain.ChatRoom
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -91,24 +95,24 @@ func TestGORM_GetClassroomByID(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			got, err := g.GetClassroomByID(tt.args.id)
+			got, err := g.GetChatRoomByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GORM.GetChatRoomByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetClassroomByID() = %v, want %v", got, tt.want)
+				t.Errorf("GORM.GetChatRoomByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestGORM_UpdateClassroom(t *testing.T) {
+func TestGORM_UpdateChatRoom(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
 	type args struct {
-		classroom domain.Classroom
+		ChatRoom domain.ChatRoom
 	}
 	tests := []struct {
 		name    string
@@ -123,168 +127,14 @@ func TestGORM_UpdateClassroom(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.UpdateClassroom(tt.args.classroom); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.UpdateClassroom() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.UpdateChatRoom(tt.args.ChatRoom); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.UpdateChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestGORM_DeleteClassroomByID(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		id int64
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			if err := g.DeleteClassroomByID(tt.args.id); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.DeleteClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
-func TestGORM_GetAllStudentClassroom(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		studentID   int64
-		classroomID int64
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    []domain.StudentClassroom
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.GetAllStudentClassroom(tt.args.studentID, tt.args.classroomID)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetAllStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetAllStudentClassroom() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_CreateStudentClassroom(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		studentClassroom domain.StudentClassroom
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    domain.StudentClassroom
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.CreateStudentClassroom(tt.args.studentClassroom)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.CreateStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.CreateStudentClassroom() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_GetStudentClassroomByID(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		id int64
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    domain.StudentClassroom
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.GetStudentClassroomByID(tt.args.id)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetStudentClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetStudentClassroomByID() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_UpdateStudentClassroom(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		studentClassroom domain.StudentClassroom
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			if err := g.UpdateStudentClassroom(tt.args.studentClassroom); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.UpdateStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
-func TestGORM_DeleteStudentClassroomByID(t *testing.T) {
+func TestGORM_DeleteChatRoomByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -304,8 +154,195 @@ func TestGORM_DeleteStudentClassroomByID(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.DeleteStudentClassroomByID(tt.args.id); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.DeleteStudentClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.DeleteChatRoomByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.DeleteChatRoomByID() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestGORM_GetChatRoomBetweenUsers(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		studentID int64
+		teacherID int64
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.ChatRoom
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			got, err := g.GetChatRoomBetweenUsers(tt.args.studentID, tt.args.teacherID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GORM.GetChatRoomBetweenUsers() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GORM.GetChatRoomBetweenUsers() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGORM_GetAllMessage(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		ChatRoomID int64
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    []domain.Message
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			got, err := g.GetAllMessage(tt.args.ChatRoomID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GORM.GetAllMessage() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GORM.GetAllMessage() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGORM_CreateMessage(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		Message domain.Message
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.Message
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			got, err := g.CreateMessage(tt.args.Message)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GORM.CreateMessage() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GORM.CreateMessage() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGORM_GetMessageByID(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		id int64
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.Message
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			got, err := g.GetMessageByID(tt.args.id)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GORM.GetMessageByID() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GORM.GetMessageByID() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGORM_UpdateMessage(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		Message domain.Message
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			if err := g.UpdateMessage(tt.args.Message); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.UpdateMessage() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestGORM_DeleteMessageByID(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		id int64
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			if err := g.DeleteMessageByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.DeleteMessageByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

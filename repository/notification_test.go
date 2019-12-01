@@ -8,47 +8,18 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func TestGORM_GetAllUser(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		want    []domain.User
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.GetAllUser()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetAllUser() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetAllUser() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_CreateUser(t *testing.T) {
+func TestGORM_GetAllNotification(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
 	type args struct {
-		user domain.User
+		userID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    []domain.Notification
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -58,19 +29,52 @@ func TestGORM_CreateUser(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			got, err := g.CreateUser(tt.args.user)
+			got, err := g.GetAllNotification(tt.args.userID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.CreateUser() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GORM.GetAllNotification() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.CreateUser() = %v, want %v", got, tt.want)
+				t.Errorf("GORM.GetAllNotification() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestGORM_GetUserByID(t *testing.T) {
+func TestGORM_CreateNotification(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		Notification domain.Notification
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.Notification
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			got, err := g.CreateNotification(tt.args.Notification)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GORM.CreateNotification() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GORM.CreateNotification() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGORM_GetNotificationByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -81,7 +85,7 @@ func TestGORM_GetUserByID(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.Notification
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -91,57 +95,24 @@ func TestGORM_GetUserByID(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			got, err := g.GetUserByID(tt.args.id)
+			got, err := g.GetNotificationByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetUserByID() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GORM.GetNotificationByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetUserByID() = %v, want %v", got, tt.want)
+				t.Errorf("GORM.GetNotificationByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestGORM_GetUserByEmail(t *testing.T) {
+func TestGORM_UpdateNotification(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
 	type args struct {
-		email string
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    domain.User
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.GetUserByEmail(tt.args.email)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetUserByEmail() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetUserByEmail() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_UpdateUser(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		user domain.User
+		Notification domain.Notification
 	}
 	tests := []struct {
 		name    string
@@ -156,14 +127,14 @@ func TestGORM_UpdateUser(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.UpdateUser(tt.args.user); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.UpdateUser() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.UpdateNotification(tt.args.Notification); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.UpdateNotification() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestGORM_DeleteUserByID(t *testing.T) {
+func TestGORM_DeleteNotificationByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -183,8 +154,8 @@ func TestGORM_DeleteUserByID(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.DeleteUserByID(tt.args.id); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.DeleteUserByID() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.DeleteNotificationByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.DeleteNotificationByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

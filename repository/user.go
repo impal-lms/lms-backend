@@ -50,7 +50,7 @@ func (g *GORM) UpdateUser(user domain.User) error {
 	return nil
 }
 
-func (g *GORM) DeleteUserById(id int64) error {
+func (g *GORM) DeleteUserByID(id int64) error {
 	var user domain.User
 	if err := g.DB.Model(&user).Where("id = ?", id).Delete(&user).Error; err != nil {
 		return err

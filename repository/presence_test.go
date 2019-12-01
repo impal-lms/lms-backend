@@ -8,47 +8,18 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func TestGORM_GetAllUser(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		want    []domain.User
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.GetAllUser()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetAllUser() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetAllUser() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_CreateUser(t *testing.T) {
+func TestGORM_GetAllPresence(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
 	type args struct {
-		user domain.User
+		studentID int64
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    []domain.Presence
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -58,19 +29,52 @@ func TestGORM_CreateUser(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			got, err := g.CreateUser(tt.args.user)
+			got, err := g.GetAllPresence(tt.args.studentID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.CreateUser() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GORM.GetAllPresence() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.CreateUser() = %v, want %v", got, tt.want)
+				t.Errorf("GORM.GetAllPresence() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestGORM_GetUserByID(t *testing.T) {
+func TestGORM_CreatePresence(t *testing.T) {
+	type fields struct {
+		DB *gorm.DB
+	}
+	type args struct {
+		Presence domain.Presence
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    domain.Presence
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &GORM{
+				DB: tt.fields.DB,
+			}
+			got, err := g.CreatePresence(tt.args.Presence)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GORM.CreatePresence() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GORM.CreatePresence() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGORM_GetPresenceByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -81,7 +85,7 @@ func TestGORM_GetUserByID(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    domain.User
+		want    domain.Presence
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -91,57 +95,24 @@ func TestGORM_GetUserByID(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			got, err := g.GetUserByID(tt.args.id)
+			got, err := g.GetPresenceByID(tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetUserByID() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GORM.GetPresenceByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetUserByID() = %v, want %v", got, tt.want)
+				t.Errorf("GORM.GetPresenceByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestGORM_GetUserByEmail(t *testing.T) {
+func TestGORM_UpdatePresence(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
 	type args struct {
-		email string
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    domain.User
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			g := &GORM{
-				DB: tt.fields.DB,
-			}
-			got, err := g.GetUserByEmail(tt.args.email)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GORM.GetUserByEmail() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GORM.GetUserByEmail() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGORM_UpdateUser(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		user domain.User
+		Presence domain.Presence
 	}
 	tests := []struct {
 		name    string
@@ -156,14 +127,14 @@ func TestGORM_UpdateUser(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.UpdateUser(tt.args.user); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.UpdateUser() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.UpdatePresence(tt.args.Presence); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.UpdatePresence() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestGORM_DeleteUserByID(t *testing.T) {
+func TestGORM_DeletePresenceByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -183,8 +154,8 @@ func TestGORM_DeleteUserByID(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.DeleteUserByID(tt.args.id); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.DeleteUserByID() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.DeletePresenceByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.DeletePresenceByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

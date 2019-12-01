@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/impal-lms/lms-backend/domain"
+	"github.com/impal-lms/lms-backend/services"
 	"github.com/labstack/echo/v4"
 )
 
@@ -27,7 +27,7 @@ func (h *Handler) FileUpload(ctx echo.Context) error {
 
 	name := strings.TrimSuffix(file.Filename, path.Ext(file.Filename))
 	ekstension := filepath.Ext(file.Filename)
-	if !domain.IsValidExtension(ekstension) {
+	if !services.IsValidExtension(ekstension) {
 		response.Data = err.Error()
 		response.Status = 415
 		return ctx.JSON(415, response)

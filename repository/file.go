@@ -46,7 +46,7 @@ func (g *GORM) UpdateMaterial(Material domain.Material) error {
 	return nil
 }
 
-func (g *GORM) DeleteMaterialById(id int64) error {
+func (g *GORM) DeleteMaterialByID(id int64) error {
 	var Material domain.Material
 	if err := g.DB.Model(&Material).Where("id = ?", id).Delete(&Material).Error; err != nil {
 		return err
@@ -96,7 +96,7 @@ func (g *GORM) UpdateTask(Task domain.Task) error {
 	return nil
 }
 
-func (g *GORM) DeleteTaskById(id int64) error {
+func (g *GORM) DeleteTaskByID(id int64) error {
 	var Task domain.Task
 	if err := g.DB.Model(&Task).Where("id = ?", id).Delete(&Task).Error; err != nil {
 		return err
@@ -105,8 +105,20 @@ func (g *GORM) DeleteTaskById(id int64) error {
 	return nil
 }
 
-func (g *GORM) GetAllSubmission(classroomID int64) ([]domain.Submission, error) {
+func (g *GORM) GetAllSubmission(studentID, classroomID int64) ([]domain.Submission, error) {
 	var Submission []domain.Submission
+
+	if studentID != 0 {
+		if classroomID != 0 {
+			if err := g.DB.Model(&Submission).Where("student_id = ? AND clasroom_id = ?", studentID, classroomID).Find(&Submission).Error; err != nil {
+				return Submission, err
+			}
+		}
+
+		if err := g.DB.Model(&Submission).Where("student_id = ?", studentID).Find(&Submission).Error; err != nil {
+			return Submission, err
+		}
+	}
 
 	if classroomID != 0 {
 		if err := g.DB.Model(&Submission).Where("clasroom_id = ?", classroomID).Find(&Submission).Error; err != nil {
@@ -147,7 +159,7 @@ func (g *GORM) UpdateSubmission(Submission domain.Submission) error {
 	return nil
 }
 
-func (g *GORM) DeleteSubmissionById(id int64) error {
+func (g *GORM) DeleteSubmissionByID(id int64) error {
 	var Submission domain.Submission
 	if err := g.DB.Model(&Submission).Where("id = ?", id).Delete(&Submission).Error; err != nil {
 		return err

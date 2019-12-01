@@ -10,7 +10,6 @@ import (
 	"github.com/impal-lms/lms-backend/repository"
 	"github.com/impal-lms/lms-backend/services"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	echoLog "github.com/labstack/gommon/log"
@@ -71,7 +70,7 @@ func run(_ *cobra.Command, _ []string) {
 	user.POST("", h.CreateUser)
 	user.GET("/:id", h.GetUserByID)
 	user.PUT("/:id", h.UpdateUser)
-	user.DELETE("/:id", h.DeleteUserById)
+	user.DELETE("/:id", h.DeleteUserByID)
 	user.PUT("/:id/password", h.ChangePassword)
 	user.PUT("/:id/role", h.ChangeRole)
 
@@ -80,33 +79,70 @@ func run(_ *cobra.Command, _ []string) {
 	classroom.POST("", h.CreateClassroom)
 	classroom.GET("/:id", h.GetClassroomByID)
 	classroom.PUT("/:id", h.UpdateClassroom)
-	classroom.DELETE("/:id", h.DeleteClassroomById)
-	classroom.PUT("/:id/add-student", h.AddStudentToClassroom)
-	classroom.PUT("/:id/delete-student", h.DeleteStudentFromClassroom)
-	classroom.PUT("/:id/add-room", h.AddRoomToClassroom)
-	classroom.PUT("/:id/delete-room", h.DeleteRoomFromClassroom)
-	classroom.GET("/user/:user_id", h.GetAllClassroomOfUser)
+	classroom.DELETE("/:id", h.DeleteClassroomByID)
+
+	studentClassroom := e.Group("/student-classroom")
+	studentClassroom.GET("", h.GetAllStudentClassroom)
+	studentClassroom.POST("", h.CreateStudentClassroom)
+	studentClassroom.GET("/:id", h.GetStudentClassroomByID)
+	studentClassroom.PUT("/:id", h.UpdateStudentClassroom)
+	studentClassroom.DELETE("/:id", h.DeleteStudentClassroomByID)
 
 	material := e.Group("/material")
 	material.GET("", h.GetAllMaterial)
 	material.POST("", h.CreateMaterial)
 	material.GET("/:id", h.GetMaterialByID)
 	material.PUT("/:id", h.UpdateMaterial)
-	material.DELETE("/:id", h.DeleteMaterialById)
+	material.DELETE("/:id", h.DeleteMaterialByID)
 
 	task := e.Group("/task")
 	task.GET("", h.GetAllTask)
 	task.POST("", h.CreateTask)
 	task.GET("/:id", h.GetTaskByID)
 	task.PUT("/:id", h.UpdateTask)
-	task.DELETE("/:id", h.DeleteTaskById)
+	task.DELETE("/:id", h.DeleteTaskByID)
 
 	submission := e.Group("/submission")
 	submission.GET("", h.GetAllSubmission)
 	submission.POST("", h.CreateSubmission)
 	submission.GET("/:id", h.GetSubmissionByID)
 	submission.PUT("/:id", h.UpdateSubmission)
-	submission.DELETE("/:id", h.DeleteSubmissionById)
+	submission.DELETE("/:id", h.DeleteSubmissionByID)
+
+	alumni := e.Group("/alumni")
+	alumni.GET("", h.GetAllAlumni)
+	alumni.POST("", h.CreateAlumni)
+	alumni.GET("/:id", h.GetAlumniByID)
+	alumni.PUT("/:id", h.UpdateAlumni)
+	alumni.DELETE("/:id", h.DeleteAlumniByID)
+
+	presence := e.Group("/presence")
+	presence.GET("", h.GetAllPresence)
+	presence.POST("", h.CreatePresence)
+	presence.GET("/:id", h.GetPresenceByID)
+	presence.PUT("/:id", h.UpdatePresence)
+	presence.DELETE("/:id", h.DeletePresenceByID)
+
+	chatRoom := e.Group("/chat-room")
+	chatRoom.GET("", h.GetAllChatRoom)
+	chatRoom.POST("", h.CreateChatRoom)
+	chatRoom.GET("/:id", h.GetChatRoomByID)
+	chatRoom.PUT("/:id", h.UpdateChatRoom)
+	chatRoom.DELETE("/:id", h.DeleteChatRoomByID)
+
+	message := e.Group("/message")
+	message.GET("", h.GetAllMessage)
+	message.POST("", h.CreateMessage)
+	message.GET("/:id", h.GetMessageByID)
+	message.PUT("/:id", h.UpdateMessage)
+	message.DELETE("/:id", h.DeleteMessageByID)
+
+	notification := e.Group("/notification")
+	notification.GET("", h.GetAllNotification)
+	notification.POST("", h.CreateNotification)
+	notification.GET("/:id", h.GetNotificationByID)
+	notification.PUT("/:id", h.UpdateNotification)
+	notification.DELETE("/:id", h.DeleteNotificationByID)
 
 	file := e.Group("/file")
 	file.POST("/upload", h.FileUpload)

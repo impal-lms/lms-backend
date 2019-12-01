@@ -134,7 +134,7 @@ func TestGORM_UpdateMaterial(t *testing.T) {
 	}
 }
 
-func TestGORM_DeleteMaterialById(t *testing.T) {
+func TestGORM_DeleteMaterialByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -154,8 +154,8 @@ func TestGORM_DeleteMaterialById(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.DeleteMaterialById(tt.args.id); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.DeleteMaterialById() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.DeleteMaterialByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.DeleteMaterialByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -287,7 +287,7 @@ func TestGORM_UpdateTask(t *testing.T) {
 	}
 }
 
-func TestGORM_DeleteTaskById(t *testing.T) {
+func TestGORM_DeleteTaskByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -307,8 +307,8 @@ func TestGORM_DeleteTaskById(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.DeleteTaskById(tt.args.id); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.DeleteTaskById() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.DeleteTaskByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.DeleteTaskByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
@@ -319,6 +319,7 @@ func TestGORM_GetAllSubmission(t *testing.T) {
 		DB *gorm.DB
 	}
 	type args struct {
+		studentID   int64
 		classroomID int64
 	}
 	tests := []struct {
@@ -335,7 +336,7 @@ func TestGORM_GetAllSubmission(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			got, err := g.GetAllSubmission(tt.args.classroomID)
+			got, err := g.GetAllSubmission(tt.args.studentID, tt.args.classroomID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GORM.GetAllSubmission() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -440,7 +441,7 @@ func TestGORM_UpdateSubmission(t *testing.T) {
 	}
 }
 
-func TestGORM_DeleteSubmissionById(t *testing.T) {
+func TestGORM_DeleteSubmissionByID(t *testing.T) {
 	type fields struct {
 		DB *gorm.DB
 	}
@@ -460,8 +461,8 @@ func TestGORM_DeleteSubmissionById(t *testing.T) {
 			g := &GORM{
 				DB: tt.fields.DB,
 			}
-			if err := g.DeleteSubmissionById(tt.args.id); (err != nil) != tt.wantErr {
-				t.Errorf("GORM.DeleteSubmissionById() error = %v, wantErr %v", err, tt.wantErr)
+			if err := g.DeleteSubmissionByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("GORM.DeleteSubmissionByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

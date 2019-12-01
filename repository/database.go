@@ -16,6 +16,7 @@ func NewRepository(DB *gorm.DB) *GORM {
 		&domain.Material{},
 		&domain.Task{},
 		&domain.Submission{},
+		&domain.Alumni{},
 	)
 
 	return &GORM{

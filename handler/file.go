@@ -111,7 +111,7 @@ func (h *Handler) UpdateMaterial(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, response)
 }
-func (h *Handler) DeleteMaterialById(ctx echo.Context) error {
+func (h *Handler) DeleteMaterialByID(ctx echo.Context) error {
 	var response Response
 
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
@@ -122,7 +122,7 @@ func (h *Handler) DeleteMaterialById(ctx echo.Context) error {
 
 	}
 
-	_, err = h.Services.DeleteMaterialById(id)
+	_, err = h.Services.DeleteMaterialByID(id)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
@@ -237,7 +237,7 @@ func (h *Handler) UpdateTask(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, response)
 }
-func (h *Handler) DeleteTaskById(ctx echo.Context) error {
+func (h *Handler) DeleteTaskByID(ctx echo.Context) error {
 	var response Response
 
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
@@ -247,7 +247,7 @@ func (h *Handler) DeleteTaskById(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, response)
 	}
 
-	_, err = h.Services.DeleteTaskById(id)
+	_, err = h.Services.DeleteTaskByID(id)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
@@ -263,6 +263,13 @@ func (h *Handler) DeleteTaskById(ctx echo.Context) error {
 func (h *Handler) GetAllSubmission(ctx echo.Context) error {
 	var response Response
 
+	studentID, err := strconv.ParseInt(ctx.Param("student_id"), 10, 64)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
 	classroomID, err := strconv.ParseInt(ctx.Param("classroom_id"), 10, 64)
 	if err != nil {
 		response.Data = err.Error()
@@ -270,7 +277,7 @@ func (h *Handler) GetAllSubmission(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, response)
 	}
 
-	Submissions, err := h.Services.GetAllSubmission(classroomID)
+	Submissions, err := h.Services.GetAllSubmission(studentID, classroomID)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
@@ -362,7 +369,7 @@ func (h *Handler) UpdateSubmission(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, response)
 }
-func (h *Handler) DeleteSubmissionById(ctx echo.Context) error {
+func (h *Handler) DeleteSubmissionByID(ctx echo.Context) error {
 	var response Response
 
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
@@ -372,7 +379,7 @@ func (h *Handler) DeleteSubmissionById(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, response)
 	}
 
-	_, err = h.Services.DeleteSubmissionById(id)
+	_, err = h.Services.DeleteSubmissionByID(id)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError

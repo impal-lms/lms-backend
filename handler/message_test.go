@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func TestHandler_GetAllClassroom(t *testing.T) {
+func TestHandler_GetAllChatRoom(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -27,14 +27,14 @@ func TestHandler_GetAllClassroom(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.GetAllClassroom(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.GetAllClassroom() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.GetAllChatRoom(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.GetAllChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_CreateClassroom(t *testing.T) {
+func TestHandler_CreateChatRoom(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -54,14 +54,14 @@ func TestHandler_CreateClassroom(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.CreateClassroom(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.CreateClassroom() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.CreateChatRoom(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.CreateChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_GetClassroomByID(t *testing.T) {
+func TestHandler_GetChatRoomByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -81,14 +81,14 @@ func TestHandler_GetClassroomByID(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.GetClassroomByID(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.GetClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.GetChatRoomByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.GetChatRoomByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_UpdateClassroom(t *testing.T) {
+func TestHandler_UpdateChatRoom(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -108,14 +108,14 @@ func TestHandler_UpdateClassroom(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.UpdateClassroom(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.UpdateClassroom() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.UpdateChatRoom(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.UpdateChatRoom() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_DeleteClassroomByID(t *testing.T) {
+func TestHandler_DeleteChatRoomByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -135,14 +135,14 @@ func TestHandler_DeleteClassroomByID(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.DeleteClassroomByID(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.DeleteClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.DeleteChatRoomByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.DeleteChatRoomByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_GetAllStudentClassroom(t *testing.T) {
+func TestHandler_GetAllMessage(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -162,14 +162,14 @@ func TestHandler_GetAllStudentClassroom(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.GetAllStudentClassroom(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.GetAllStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.GetAllMessage(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.GetAllMessage() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_CreateStudentClassroom(t *testing.T) {
+func TestHandler_CreateMessage(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -189,14 +189,14 @@ func TestHandler_CreateStudentClassroom(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.CreateStudentClassroom(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.CreateStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.CreateMessage(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.CreateMessage() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_GetStudentClassroomByID(t *testing.T) {
+func TestHandler_GetMessageByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -216,14 +216,14 @@ func TestHandler_GetStudentClassroomByID(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.GetStudentClassroomByID(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.GetStudentClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.GetMessageByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.GetMessageByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_UpdateStudentClassroom(t *testing.T) {
+func TestHandler_UpdateMessage(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -243,14 +243,14 @@ func TestHandler_UpdateStudentClassroom(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.UpdateStudentClassroom(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.UpdateStudentClassroom() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.UpdateMessage(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.UpdateMessage() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandler_DeleteStudentClassroomByID(t *testing.T) {
+func TestHandler_DeleteMessageByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -270,8 +270,8 @@ func TestHandler_DeleteStudentClassroomByID(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.DeleteStudentClassroomByID(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.DeleteStudentClassroomByID() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.DeleteMessageByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.DeleteMessageByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

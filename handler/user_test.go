@@ -115,7 +115,7 @@ func TestHandler_UpdateUser(t *testing.T) {
 	}
 }
 
-func TestHandler_DeleteUserById(t *testing.T) {
+func TestHandler_DeleteUserByID(t *testing.T) {
 	type fields struct {
 		Services services.Services
 	}
@@ -135,8 +135,8 @@ func TestHandler_DeleteUserById(t *testing.T) {
 			h := &Handler{
 				Services: tt.fields.Services,
 			}
-			if err := h.DeleteUserById(tt.args.ctx); (err != nil) != tt.wantErr {
-				t.Errorf("Handler.DeleteUserById() error = %v, wantErr %v", err, tt.wantErr)
+			if err := h.DeleteUserByID(tt.args.ctx); (err != nil) != tt.wantErr {
+				t.Errorf("Handler.DeleteUserByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

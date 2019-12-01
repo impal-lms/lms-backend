@@ -29,7 +29,7 @@ func (h *Handler) CreateClassroom(ctx echo.Context) error {
 	var response Response
 
 	body := ctx.Request().Body
-	var request domain.CreateUpdateClassroomRequest
+	var request domain.Classroom
 	err := json.NewDecoder(body).Decode(&request)
 	if err != nil {
 		response.Data = err.Error()
@@ -37,10 +37,7 @@ func (h *Handler) CreateClassroom(ctx echo.Context) error {
 		return ctx.JSON(401, response)
 	}
 
-	Classroom, code, err := h.Services.CreateClassroom(domain.Classroom{
-		Label:     request.Label,
-		TeacherID: request.TeacherID,
-	})
+	Classroom, code, err := h.Services.CreateClassroom(request)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = code
@@ -85,7 +82,7 @@ func (h *Handler) UpdateClassroom(ctx echo.Context) error {
 	}
 
 	body := ctx.Request().Body
-	var request domain.CreateUpdateClassroomRequest
+	var request domain.Classroom
 	err = json.NewDecoder(body).Decode(&request)
 	if err != nil {
 		response.Data = err.Error()
@@ -93,18 +90,9 @@ func (h *Handler) UpdateClassroom(ctx echo.Context) error {
 		return ctx.JSON(401, response)
 	}
 
-	Classroom := domain.Classroom{}
-	Classroom.ID = id
+	request.ID = id
 
-	if request.Label != "" {
-		Classroom.Label = request.Label
-	}
-
-	if request.TeacherID != 0 {
-		Classroom.TeacherID = request.TeacherID
-	}
-
-	Classroom, err = h.Services.UpdateClassroom(Classroom)
+	Classroom, err := h.Services.UpdateClassroom(request)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
@@ -116,7 +104,7 @@ func (h *Handler) UpdateClassroom(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, response)
 }
-func (h *Handler) DeleteClassroomById(ctx echo.Context) error {
+func (h *Handler) DeleteClassroomByID(ctx echo.Context) error {
 	var response Response
 
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
@@ -127,7 +115,7 @@ func (h *Handler) DeleteClassroomById(ctx echo.Context) error {
 
 	}
 
-	_, err = h.Services.DeleteClassroomById(id)
+	_, err = h.Services.DeleteClassroomByID(id)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
@@ -140,7 +128,84 @@ func (h *Handler) DeleteClassroomById(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, response)
 }
 
-func (h *Handler) AddStudentToClassroom(ctx echo.Context) error {
+func (h *Handler) GetAllStudentClassroom(ctx echo.Context) error {
+	var response Response
+
+	studentID, err := strconv.ParseInt(ctx.Param("student_id"), 10, 64)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	classroomID, err := strconv.ParseInt(ctx.Param("classroom_id"), 10, 64)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	StudentClassrooms, err := h.Services.GetAllStudentClassroom(studentID, classroomID)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusInternalServerError
+		return ctx.JSON(http.StatusInternalServerError, response)
+	}
+
+	response.Data = StudentClassrooms
+	response.Status = http.StatusOK
+
+	return ctx.JSON(http.StatusOK, response)
+}
+
+func (h *Handler) CreateStudentClassroom(ctx echo.Context) error {
+	var response Response
+
+	body := ctx.Request().Body
+	var request domain.StudentClassroom
+	err := json.NewDecoder(body).Decode(&request)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = 401
+		return ctx.JSON(401, response)
+	}
+
+	StudentClassroom, code, err := h.Services.CreateStudentClassroom(request)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = code
+		return ctx.JSON(code, response)
+	}
+
+	response.Data = StudentClassroom
+	response.Status = code
+
+	return ctx.JSON(code, response)
+}
+
+func (h *Handler) GetStudentClassroomByID(ctx echo.Context) error {
+	var response Response
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		return ctx.JSON(http.StatusBadRequest, response)
+	}
+
+	StudentClassroom, err := h.Services.GetStudentClassroomByID(id)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusInternalServerError
+		return ctx.JSON(http.StatusInternalServerError, response)
+	}
+
+	response.Data = StudentClassroom
+	response.Status = http.StatusOK
+
+	return ctx.JSON(http.StatusOK, response)
+}
+
+func (h *Handler) UpdateStudentClassroom(ctx echo.Context) error {
 	var response Response
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
@@ -150,7 +215,7 @@ func (h *Handler) AddStudentToClassroom(ctx echo.Context) error {
 	}
 
 	body := ctx.Request().Body
-	var request domain.AddStudentToClassroomRequest
+	var request domain.StudentClassroom
 	err = json.NewDecoder(body).Decode(&request)
 	if err != nil {
 		response.Data = err.Error()
@@ -158,129 +223,39 @@ func (h *Handler) AddStudentToClassroom(ctx echo.Context) error {
 		return ctx.JSON(401, response)
 	}
 
-	Classroom, err := h.Services.AddStudentToClassroom(id, request.StudentID)
+	request.ID = id
+
+	StudentClassroom, err := h.Services.UpdateStudentClassroom(request)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
 		return ctx.JSON(http.StatusInternalServerError, response)
 	}
 
-	response.Data = Classroom
+	response.Data = StudentClassroom
 	response.Status = http.StatusOK
 
 	return ctx.JSON(http.StatusOK, response)
 }
-
-func (h *Handler) DeleteStudentFromClassroom(ctx echo.Context) error {
+func (h *Handler) DeleteStudentClassroomByID(ctx echo.Context) error {
 	var response Response
+
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusBadRequest
 		return ctx.JSON(http.StatusBadRequest, response)
+
 	}
 
-	body := ctx.Request().Body
-	var request domain.AddStudentToClassroomRequest
-	err = json.NewDecoder(body).Decode(&request)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = 401
-		return ctx.JSON(401, response)
-	}
-
-	Classroom, err := h.Services.DeleteStudentFromClassroom(id, request.StudentID)
+	_, err = h.Services.DeleteStudentClassroomByID(id)
 	if err != nil {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
 		return ctx.JSON(http.StatusInternalServerError, response)
 	}
 
-	response.Data = Classroom
-	response.Status = http.StatusOK
-
-	return ctx.JSON(http.StatusOK, response)
-}
-
-func (h *Handler) AddRoomToClassroom(ctx echo.Context) error {
-	var response Response
-	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = http.StatusBadRequest
-		return ctx.JSON(http.StatusBadRequest, response)
-	}
-
-	body := ctx.Request().Body
-	var request domain.AddRoomToClassroomRequest
-	err = json.NewDecoder(body).Decode(&request)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = 401
-		return ctx.JSON(401, response)
-	}
-
-	Classroom, err := h.Services.AddRoomToClassroom(id, request.RoomID)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = http.StatusInternalServerError
-		return ctx.JSON(http.StatusInternalServerError, response)
-	}
-
-	response.Data = Classroom
-	response.Status = http.StatusOK
-
-	return ctx.JSON(http.StatusOK, response)
-}
-
-func (h *Handler) DeleteRoomFromClassroom(ctx echo.Context) error {
-	var response Response
-	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = http.StatusBadRequest
-		return ctx.JSON(http.StatusBadRequest, response)
-	}
-
-	body := ctx.Request().Body
-	var request domain.AddRoomToClassroomRequest
-	err = json.NewDecoder(body).Decode(&request)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = 401
-		return ctx.JSON(401, response)
-	}
-
-	Classroom, err := h.Services.DeleteRoomFromClassroom(id, request.RoomID)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = http.StatusInternalServerError
-		return ctx.JSON(http.StatusInternalServerError, response)
-	}
-
-	response.Data = Classroom
-	response.Status = http.StatusOK
-
-	return ctx.JSON(http.StatusOK, response)
-}
-
-func (h *Handler) GetAllClassroomOfUser(ctx echo.Context) error {
-	var response Response
-	userID, err := strconv.ParseInt(ctx.Param("user_id"), 10, 64)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = http.StatusBadRequest
-		return ctx.JSON(http.StatusBadRequest, response)
-	}
-
-	Classrooms, err := h.Services.GetAllClassroomOfUser(userID)
-	if err != nil {
-		response.Data = err.Error()
-		response.Status = http.StatusInternalServerError
-		return ctx.JSON(http.StatusInternalServerError, response)
-	}
-
-	response.Data = Classrooms
+	response.Data = nil
 	response.Status = http.StatusOK
 
 	return ctx.JSON(http.StatusOK, response)
