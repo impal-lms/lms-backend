@@ -28,7 +28,10 @@ func TestIsValidExtension(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := services.IsValidExtension(tt.args.ext); got != tt.want {
+			got := services.IsValidExtension(tt.args.ext)
+			t.Logf("Got : %v \n Want : %v", got, tt.want)
+
+			if got != tt.want {
 				t.Errorf("IsValidExtension() = %v, want %v", got, tt.want)
 			}
 		})
@@ -59,6 +62,7 @@ func TestLMS_GetAllMaterial(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := lms.GetAllMaterial(tt.args.classroomID)
+			t.Logf("Got : %v, %v \n Want : %v, %v", got, err, tt.want, tt.wantErr)
 			if err != tt.wantErr {
 				t.Errorf("LMS.GetAllMaterial() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -92,6 +96,7 @@ func TestLMS_GetMaterialByID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := lms.GetMaterialByID(tt.args.id)
+			t.Logf("Got : %v, %v \n Want : %v, %v", got, err, tt.want, tt.wantErr)
 			if err != tt.wantErr {
 				t.Errorf("LMS.GetMaterialByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -125,6 +130,7 @@ func TestLMS_GetAllTask(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := lms.GetAllTask(tt.args.classroomID)
+			t.Logf("Got : %v, %v \n Want : %v, %v", got, err, tt.want, tt.wantErr)
 			if err != tt.wantErr {
 				t.Errorf("LMS.GetAllTask() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -158,6 +164,7 @@ func TestLMS_GetTaskByID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := lms.GetTaskByID(tt.args.id)
+			t.Logf("Got : %v, %v \n Want : %v, %v", got, err, tt.want, tt.wantErr)
 			if err != tt.wantErr {
 				t.Errorf("LMS.GetTaskByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -192,6 +199,7 @@ func TestLMS_GetAllSubmission(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := lms.GetAllSubmission(tt.args.studentID, tt.args.classroomID)
+			t.Logf("Got : %v, %v \n Want : %v, %v", got, err, tt.want, tt.wantErr)
 			if err != tt.wantErr {
 				t.Errorf("LMS.GetAllSubmission() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -225,6 +233,7 @@ func TestLMS_GetSubmissionByID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := lms.GetSubmissionByID(tt.args.id)
+			t.Logf("Got : %v, %v \n Want : %v, %v", got, err, tt.want, tt.wantErr)
 			if err != tt.wantErr {
 				t.Errorf("LMS.GetSubmissionByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
