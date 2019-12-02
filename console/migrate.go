@@ -40,6 +40,7 @@ func processMigration(cmd *cobra.Command, args []string) {
 
 	migrate.SetTable("schema_migrations")
 	dbURL := helper.GetEnv("DB_URL", "").(string)
+	logrus.Println(dbURL)
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		logrus.WithField("DatabaseDSN", dbURL).Fatal("Failed to connect database: ", err)
